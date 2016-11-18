@@ -30,20 +30,14 @@ class Vcc
 {
   public:
     /**
-     * Constructor
-     *
-     * @param correction  Correction factor, when reported Vcc is off from measured (externally) Vcc
-     *                    (due to variations in bandgap voltage of +/- 0.1V)
-     *                    Calculate as Vcc_measured/Vcc_reported. Defaults to 1.
-     */
-    Vcc( const float correction = 1.0 );
-
-    /**
      * Retrieve current Vcc level.
      *
+	 * @param correction  Correction factor, when reported Vcc is off from measured (externally) Vcc
+     *                    (due to variations in bandgap voltage of +/- 0.1V)
+     *                    Calculate as Vcc_measured/Vcc_reported. Defaults to 1.
      * @return Current Vcc level, in Volts.
      */
-    float Read_Volts(void);
+    float Read_Volts(const float correction = 1.0);
 
     /**
      * Retrieve current Vcc level. The total voltage range shall be passed
@@ -56,9 +50,18 @@ class Vcc
      * @return Current Vcc level, as percentage of expected Vcc level.
      */
     float Read_Perc(const float range_min = 0.0, const float range_max = 0.0, const boolean clip = true);
-
-  protected:
-    float m_correction;     /**< Correction factor, when reported Vcc is off. */ 
+	
+    /**
+	 * Compute current Vcc level Percent from already readed value.
+	 * Can be usefull/more optimized if you want vcc level percent when you already have vcc level in volts
+	 *
+	 * @param volts_readed 	Volts value to compute
+	 * @param range_min  	Low bound to Vcc level range, in Volts.
+     * @param range_max  	High bound to Vcc level range, in Volts.
+     * @param clip       	When set, assures returned percentage is clipped to [0..100]% range.
+     * @return Computed Vcc Percent
+	*/
+	static float Compute_Perc(const float volts_readed, const float range_min = 0.0, const float range_max = 0.0, const boolean clip = true);
 };
 
 #endif 

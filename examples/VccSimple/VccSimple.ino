@@ -1,10 +1,10 @@
 #include <Vcc.h>
 
-const float VccMin   = 0.0;           // Minimum expected Vcc level, in Volts.
-const float VccMax   = 5.0;           // Maximum expected Vcc level, in Volts.
-const float VccCorrection = 1.0/1.0;  // Measured Vcc by multimeter divided by reported Vcc
+#define VCC_MIN 0.0
+#define VCC_MAX 5.0
+#define VCC_CORRECTION 1.0/1.0
 
-Vcc vcc(VccCorrection);
+Vcc vcc;
 
 void setup()
 {
@@ -13,12 +13,12 @@ void setup()
 
 void loop()
 {  
-  float v = vcc.Read_Volts();
+  float v = vcc.Read_Volts(VCC_CORRECTION);
   Serial.print("VCC = ");
   Serial.print(v);
   Serial.println(" Volts");
 
-  float p = vcc.Read_Perc(VccMin, VccMax);
+  float p = vcc.Compute_Perc(v, VCC_MIN, VCC_MAX);
   Serial.print("VCC = ");
   Serial.print(p);
   Serial.println(" %");
