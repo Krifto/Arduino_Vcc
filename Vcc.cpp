@@ -33,7 +33,7 @@
 #define ADMUX_VCCWRT1V1 (_BV(REFS0) | _BV(MUX3) | _BV(MUX2) | _BV(MUX1))
 #endif  
 
-float Vcc::Read_Volts(const float correction = 1.0)
+float Vcc::Read_Volts(const float correction)
 {
   // Read 1.1V reference against AVcc
   // set the reference to Vcc and the measurement to the internal 1.1V reference
@@ -66,7 +66,7 @@ float Vcc::Read_Perc(const float range_min, const float range_max, const boolean
   return Vcc::Compute_Perc(Read_Volts(),range_min, range_max, clip);
 }
 
-static float Vcc::Compute_Perc(const float volts_readed, const float range_min = 0.0, const float range_max = 0.0, const boolean clip = true)
+float Vcc::Compute_Perc(const float volts_readed, const float range_min, const float range_max, const boolean clip)
 {
 	 // Read Vcc and convert to percentage
 	float perc = 100.0 * (volts_readed-range_min) / (range_max-range_min);
