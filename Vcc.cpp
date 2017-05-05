@@ -31,49 +31,44 @@
 #define ADMUX_VCCWRT1V1 (_BV(MUX3) | _BV(MUX2))
 #else
 #define ADMUX_VCCWRT1V1 (_BV(REFS0) | _BV(MUX3) | _BV(MUX2) | _BV(MUX1))
-#endif  
+#endif
 
 float Vcc::readVolts(const float correction)
 {
-  // Read 1.1V reference against AVcc
-  // set the reference to Vcc and the measurement to the internal 1.1V reference
-  if (ADMUX != ADMUX_VCCWRT1V1)
-  {
-    ADMUX = ADMUX_VCCWRT1V1;
+    // Read 1.1V reference against AVCC.
+    // set the reference to VCC  and the measurement to the internal 1.1V reference.
+    if (ADMUX != ADMUX_VCCWRT1V1) {
+        ADMUX = ADMUX_VCCWRT1V1;
 
-    // Bandgap reference start-up time: max 70us
-    // Wait for Vref to settle.
-    delayMicroseconds(350); 
-  }
+        // Bandgap reference start-up time: max 70us
+        // Wait for Vref to settle.
+        delayMicroseconds(350); 
+    }
   
-  // Start conversion and wait for it to finish.
-  ADCSRA |= _BV(ADSC);
-  while (bit_is_set(ADCSRA,ADSC)) {};
+    // Start conversion and wait for it to finish.
+    ADCSRA |= _BV(ADSC);
+    while (bit_is_set(ADCSRA,ADSC)) {};
+    // Result is now stored in ADC.
+    // Calculate VCC (in V).
+    float vcc = 1.1*1024.0f / ADC;
     
-  // Result is now stored in ADC.
-  
-  // Calculate Vcc (in V)
-  float vcc = 1.1*1024.0 / ADC;
-
-  // Apply compensation
-  vcc *= correction;
-
-  return vcc;
+    // Apply compensation.
+    vcc *= correction;
+    return vcc;
 }
 
 float Vcc::readPerc(const float range_min, const float range_max, const boolean clip)
 {
-  return Vcc::computePerc(readVolts(),range_min, range_max, clip);
+    return Vcc::computePerc(readVolts(),range_min, range_max, clip);
 }
 
 float Vcc::computePerc(const float volts_read, const float range_min, const float range_max, const boolean clip)
 {
-	 // Read Vcc and convert to percentage
-	float perc = 100.0 * (volts_read-range_min) / (range_max-range_min);
-	// Clip to [0..100]% range, when requested.
-	if (clip) {
-		perc = constrain(perc, 0.0, 100.0);
-	}
-
-	return perc;
+     // Read VCC and convert to percentage.
+    float perc = 100.0f * (volts_read-range_min) / (range_max-range_min);
+    // Clip to [0..100]% range, when requested.
+    if (clip) {
+        perc = constrain(perc, 0.0f, 100.0f);
+    }
+    return perc;
 }

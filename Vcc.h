@@ -1,5 +1,5 @@
 /*
-  Vcc - A supply voltage measuring library for Arduino
+ VCC - A supply voltage measuring library for Arduino
 
   Created by Ivo Pullens, Emmission, 2014
   
@@ -30,38 +30,38 @@ class Vcc
 {
   public:
     /**
-     * Retrieve current Vcc level.
+     * Retrieve current VCC level.
      *
- 	   * @param correction  Correction factor, when reported Vcc is off from measured (externally) Vcc
+ 	   * @param correction  Correction factor, when reported VCC is off from measured (externally) VCC
      *                    (due to variations in bandgap voltage of +/- 0.1V)
-     *                    Calculate as Vcc_measured/Vcc_reported. Defaults to 1.
-     * @return Current Vcc level, in volts.
+     *                    Calculate as VCC_measured VCC_reported. Defaults to 1.
+     * @return Current VCC level, in volts.
      */
     float readVolts(const float correction = 1.0f);
 
     /**
-     * Retrieve current Vcc level. The total voltage range shall be passed
+     * Retrieve current VCC level. The total voltage range shall be passed
      * as lower/upper bound. For e.g. an alkaline AA battery this range can be set
      * to [0.6,..,1.5] volts.
      *
-     * @param range_min  Lower bound to Vcc level range, in volts.
-     * @param range_max  Upper bound to Vcc level range, in volts.
+     * @param range_min  Lower bound to VCC level range, in volts.
+     * @param range_max  Upper bound to VCC level range, in volts.
      * @param clip       When set, assures returned percentage is clipped to [0..100]% range.
-     * @return Current Vcc level, as percentage of expected Vcc level.
+     * @return Current VCC level, as percentage of expected VCC level.
      */
     float readPerc(const float range_min = 0, const float range_max = 0, const boolean clip = true);
-	
-  /**
-	 * Compute current Vcc level percent from already readed value.
-	 * Can be usefull/more optimized if you want vcc level percent when you already have vcc level in volts
-	 *
-	 * @param volts_read 	Volts value to compute.
-	 * @param range_min  	Lower bound to Vcc level range, in volts.
-   * @param range_max  	Upper bound to Vcc level range, in volts.
-   * @param clip       	When set, assures returned percentage is clipped to [0..100]% range.
-   * @return Computed Vcc percent.
-	*/
-	static float computePerc(const float volts_read, const float range_min = 0, const float range_max = 0, const boolean clip = true);
+
+    /**
+     * Compute current VCC level percent from already readed value.
+     * Can be usefull/more optimized if you want VCC level percent when you already have VCC level in volts
+     *
+     * @param volts_read 	Volts value to compute.
+     * @param range_min  	Lower bound to VCC level range, in volts.
+     * @param range_max  	Upper bound to VCC level range, in volts.
+     * @param clip       	When set, assures returned percentage is clipped to [0..100]% range.
+     * @return Computed VCC percent.
+     */
+    static float computePerc(const float volts_read, const float range_min = 0, const float range_max = 0, const boolean clip = true);
 };
 
 #endif 
