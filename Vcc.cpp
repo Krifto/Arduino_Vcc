@@ -57,9 +57,18 @@ float Vcc::readVolts(const float correction)
     return vcc;
 }
 
+float Vcc::Read_Volts(const float correction)
+{
+    return readVolts(correction);
+}
+
 float Vcc::readPerc(const float range_min, const float range_max, const boolean clip)
 {
     return Vcc::computePerc(readVolts(),range_min, range_max, clip);
+}
+
+float Vcc::Read_Perc(const float range_min, const float range_max, const boolean clip){
+        return readPerc(range_min, range_max, clip);
 }
 
 float Vcc::computePerc(const float volts_read, const float range_min, const float range_max, const boolean clip)
@@ -71,4 +80,8 @@ float Vcc::computePerc(const float volts_read, const float range_min, const floa
         perc = constrain(perc, 0.0f, 100.0f);
     }
     return perc;
+}
+float Vcc::Compute_Perc(const float volts_read, const float range_min, const float range_max, const boolean clip)
+{
+        return computePerc(volts_read, range_min, range_max, clip);
 }

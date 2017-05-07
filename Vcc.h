@@ -38,6 +38,7 @@ class Vcc
      * @return Current VCC level, in volts.
      */
     float readVolts(const float correction = 1.0f);
+    float Read_Volts(const float correction = 1.0f);
 
     /**
      * Retrieve current VCC level. The total voltage range shall be passed
@@ -50,6 +51,7 @@ class Vcc
      * @return Current VCC level, as percentage of expected VCC level.
      */
     float readPerc(const float range_min = 0, const float range_max = 0, const boolean clip = true);
+    float Read_Perc(const float range_min = 0, const float range_max = 0, const boolean clip = true);
 
     /**
      * Compute current VCC level percent from already readed value.
@@ -62,6 +64,7 @@ class Vcc
      * @return Computed VCC percent.
      */
     static float computePerc(const float volts_read, const float range_min = 0, const float range_max = 0, const boolean clip = true);
+    static float Compute_Perc(const float volts_read, const float range_min = 0, const float range_max = 0, const boolean clip = true);
 };
 
 #endif 
